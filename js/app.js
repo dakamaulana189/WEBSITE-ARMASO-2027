@@ -835,6 +835,8 @@
     initForms();
     initModals();
     initMobileMenu();
+    setupFileUpload('olimpiade');
+    setupFileUpload('futsal');
     console.log('%c ARMASO 2027 %c Futuristic Egyptian Theme Initialized ', 'background:#f6d066; color:#000; font-weight:bold; padding:4px;', 'background:#090e17; color:#00f2fe; padding:4px;');
   });
 
