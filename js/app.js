@@ -9,7 +9,7 @@
   'use strict';
 
   // Configuration & State
-  const STORAGE_KEY_GAS = 'https://script.google.com/macros/s/AKfycbxcXgldnNM6sTzr8obBFVN2fjXWF6EVF-BmTh9bgZR_H-YVVDu9mMEWZAhtOQFVcCG5/exec';
+  const STORAGE_KEY_GAS = 'https://script.google.com/macros/s/AKfycbxzp9RzbOUdQgO1mJdlf-iZblnzIP1OnHNcc5iDSATBrzsgSe_slpST03AuPGXN28WFfg/exec';
   // Default Google Apps Script URL (Can be updated via UI or localStorage)
   let googleScriptUrl = localStorage.getItem(STORAGE_KEY_GAS) || '';
 
