@@ -10,8 +10,7 @@
 
   // Configuration & State
   const STORAGE_KEY_GAS = 'https://script.google.com/macros/s/AKfycbxhAVGyeroYI8bx5NhkosgknUrx85Y8qUUb2CtJumQCmJrkHeVsh_K0QHxZEMzzPBpu9A/exec';
-  // Default Google Apps Script URL (Can be updated via UI or localStorage)
-  let googleScriptUrl = localStorage.getItem(STORAGE_KEY_GAS) || '';
+  let googleScriptUrl = STORAGE_KEY_GAS;
 
   // File Upload State Store
   const fileState = {
