@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Olimpiade Matematika, IPA & IPS | ARMASO 2027</title>
+  
+  <!-- SEO & Meta Tags -->
+  <meta name="description" content="Pendaftaran Resmi Olimpiade Matematika, IPA (Science), dan IPS (Social) ARMASO 2027. Tingkat SD/MI Sederajat se-Jawa Bali. Biaya Rp 35.000, Total Hadiah Rp 10 Juta.">
+  <meta name="keywords" content="Olimpiade Matematika SD, Olimpiade IPA SD, Olimpiade IPS SD, Armaso 2027, Ar Rahmat Bojonegoro, Lomba SD Jawa Bali">
+  <meta name="author" content="Panitia ARMASO 2027">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23f6d066'><path d='M12 2L1 21h22L12 2zm0 4.5l6.5 11.5h-13L12 6.5z'/></svg>">
+  
+  <!-- Google Fonts: Cinzel & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Subtle Hieroglyphic Background -->
+  <div class="hieroglyph-backdrop" aria-hidden="true"></div>
+
+  <div class="main-wrapper">
+    
+    <!-- Navigation Bar -->
+    <header class="navbar" id="navbar">
+      <div class="container nav-container">
+        <!-- Logo -->
+        <a href="index.html" class="brand-logo">
+          <div class="brand-crest">
+            <i class="fa-solid fa-ankh"></i>
+          </div>
+          <div class="brand-text">
+            <span class="brand-title">ARMASO 2027</span>
+            <span class="brand-subtitle">AR-RAHMAT COMPETITION</span>
+          </div>
+        </a>
+
+        <!-- Menu -->
+        <nav>
+          <ul class="nav-menu" id="nav-menu">
+            <li><a href="index.html" class="nav-link">Beranda</a></li>
+            <li><a href="olimpiade.html" class="nav-link active">Olimpiade</a></li>
+            <li><a href="futsal.html" class="nav-link">Kompetisi Futsal</a></li>
+            <li><a href="#bidang-lomba" class="nav-link">Bidang Lomba</a></li>
+            <li><a href="#timeline" class="nav-link">Timeline</a></li>
+            <li><a href="#daftar" class="nav-link">Registrasi</a></li>
+            
+            <li class="nav-actions-mobile">
+              <button type="button" class="btn-admin-config" id="btn-open-gas-mobile">
+                <i class="fa-solid fa-cloud-arrow-up"></i> Pengaturan Sheet
+              </button>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="nav-actions">
+          <button type="button" class="btn-admin-config" id="btn-open-gas-config" title="Konfigurasi URL Google Apps Script Webhook">
+            <i class="fa-solid fa-cloud-arrow-up"></i> Google Sheet Webhook
+          </button>
+          <a href="#daftar" class="btn btn-gold btn-sm">
+            <i class="fa-solid fa-pen-nib"></i> Form Registrasi
+          </a>
+        </div>
+
+        <button class="nav-toggle" id="nav-toggle" aria-label="Buka Menu Navigasi">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Subpage Hero Banner -->
+    <section class="subpage-hero">
+      <div class="subpage-hero-bg">
+        <img src="assets/images/olympiad-temple.jpg" alt="Kuil Kebijaksanaan Sains Olimpiade ARMASO 2027">
+      </div>
+      <div class="subpage-hero-overlay"></div>
+
+      <div class="container subpage-hero-content">
+        <div class="breadcrumb-egypt">
+          <a href="index.html"><i class="fa-solid fa-house"></i> Beranda</a>
+          <span>/</span>
+          <span>Olimpiade SD/MI</span>
+        </div>
+
+        <div class="badge-egypt">
+          <i class="fa-solid fa-scroll"></i> Kompetisi Akademik Tingkat Jawa - Bali
+        </div>
+
+        <h1 class="hero-title-main" style="font-size: clamp(2rem, 4.5vw, 3.5rem);">
+          OLIMPIADE AKADEMIK
+          <span class="hero-title-gold">MATEMATIKA, IPA & IPS</span>
+        </h1>
+
+        <p class="hero-description" style="margin: 0 auto 2rem; max-width: 780px;">
+          Uji kecerdasan, ketajaman logika, dan wawasan saintifik tingkat SD/MI se-Jawa Bali dalam gelaran olimpiade berstandar nasional dengan atmosfer kemegahan ilmu peradaban klasik.
+        </p>
+
+        <div class="hero-cta-group" style="justify-content: center; margin-bottom: 0;">
+          <a href="#daftar" class="btn btn-gold btn-lg">
+            <i class="fa-solid fa-paper-plane"></i> Daftar Sekarang (Rp 35.000)
+          </a>
+          <button type="button" class="btn btn-outline-gold btn-lg" id="btn-download-guidebook-olymp">
+            <i class="fa-solid fa-file-pdf"></i> Unduh File Guidebook
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Overview Highlights -->
+    <section class="section" style="padding: 3rem 0; background: var(--bg-darker); border-bottom: 1px solid var(--border-subtle);">
+      <div class="container">
+        <div class="hero-highlights-strip">
+          <div class="highlight-item">
+            <div class="highlight-icon">
+              <i class="fa-solid fa-receipt"></i>
+            </div>
+            <div>
+              <span class="highlight-label">Biaya Pendaftaran</span>
+              <span class="highlight-value">Rp 35.000 / Peserta</span>
+            </div>
+          </div>
+
+          <div class="highlight-item">
+            <div class="highlight-icon">
+              <i class="fa-solid fa-trophy"></i>
+            </div>
+            <div>
+              <span class="highlight-label">Total Hadiah Pembinaan</span>
+              <span class="highlight-value">Rp 10.000.000</span>
+            </div>
+          </div>
+
+          <div class="highlight-item">
+            <div class="highlight-icon">
+              <i class="fa-solid fa-users"></i>
+            </div>
+            <div>
+              <span class="highlight-label">Sasaran Peserta</span>
+              <span class="highlight-value">Siswa SD/MI se-Jawa Bali</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bidang Lomba Section -->
+    <section class="section" id="bidang-lomba">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag"><i class="fa-solid fa-shapes"></i> Tiga Pilar Keilmuan</span>
+          <h2 class="section-title">BIDANG KOMPETISI OLIMPIADE</h2>
+          <div class="egyptian-divider">
+            <i class="fa-solid fa-feather-pointed"></i>
+          </div>
+          <p class="section-subtitle">
+            Pilihlah cabang olimpiade yang sesuai dengan minat dan bakat peserta. Setiap sekolah diperkenankan mendaftarkan lebih dari satu perwakilan untuk masing-masing bidang.
+          </p>
+        </div>
+
+        <div class="subjects-grid">
+          <!-- 1. Matematika -->
+          <div class="subject-card">
+            <div class="subject-icon-box">
+              <i class="fa-solid fa-calculator"></i>
+            </div>
+            <h3 class="subject-title">1. Matematika</h3>
+            <p class="subject-desc">
+              Menguji nalar logis, aritmatika olimpiade, teori bilangan sederhana, geometri dasar, pola barisan angka, kombinatorika, serta pemecahan masalah (problem solving) tingkat tinggi (HOTS).
+            </p>
+            <div style="margin-top: 1rem; font-size: 0.82rem; color: var(--gold-primary); font-weight: 700;">
+              <i class="fa-solid fa-clock"></i> Durasi Ujian: 90 Menit • 40 Soal
+            </div>
+          </div>
+
+          <!-- 2. IPA (Science) -->
+          <div class="subject-card">
+            <div class="subject-icon-box">
+              <i class="fa-solid fa-flask-vial"></i>
+            </div>
+            <h3 class="subject-title">2. IPA (Science)</h3>
+            <p class="subject-desc">
+              Mencakup pemahaman konsep biologi manusia & lingkungan hidup, sains fisika dasar, energi & perubahannya, bumi & tata surya, serta aplikasi metode ilmiah dalam kehidupan sehari-hari.
+            </p>
+            <div style="margin-top: 1rem; font-size: 0.82rem; color: var(--gold-primary); font-weight: 700;">
+              <i class="fa-solid fa-clock"></i> Durasi Ujian: 90 Menit • 50 Soal
+            </div>
+          </div>
+
+          <!-- 3. IPS (Social) -->
+          <div class="subject-card">
+            <div class="subject-icon-box">
+              <i class="fa-solid fa-earth-asia"></i>
+            </div>
+            <h3 class="subject-title">3. IPS (Social)</h3>
+            <p class="subject-desc">
+              Mengeksplorasi wawasan geografi nusantara dan dunia, perjalanan sejarah bangsa Indonesia, keanekaragaman sosial budaya nusantara, koperasi, serta wawasan ekonomi kebangsaan.
+            </p>
+            <div style="margin-top: 1rem; font-size: 0.82rem; color: var(--gold-primary); font-weight: 700;">
+              <i class="fa-solid fa-clock"></i> Durasi Ujian: 90 Menit • 50 Soal
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="section" id="timeline" style="background: rgba(14, 10, 6, 0.7); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag"><i class="fa-regular fa-calendar-check"></i> Jadwal Pelaksanaan</span>
+          <h2 class="section-title">TIMELINE KHUSUS OLIMPIADE</h2>
+          <div class="egyptian-divider">
+            <i class="fa-solid fa-hourglass-half"></i>
+          </div>
+          <p class="section-subtitle">
+            Catat tanggal-tanggal krusial berikut agar tidak terlewat dalam tahapan kompetisi bergengsi ARMASO 2027.
+          </p>
+        </div>
+
+        <div class="timeline-stepper">
+          <!-- Step 1 -->
+          <div class="timeline-step">
+            <span class="timeline-step-badge">Tahap 1: Registrasi</span>
+            <div class="timeline-date">s.d. 15 Januari 2027</div>
+            <p class="timeline-desc">
+              Pendaftaran peserta secara online melalui website resmi dan pembayaran biaya pendaftaran sebesar Rp 35.000,- dengan mengunggah bukti transfer.
+            </p>
+          </div>
+
+          <!-- Step 2: Penyisihan -->
+          <div class="timeline-step" style="border-color: var(--gold-primary); box-shadow: var(--gold-glow-soft);">
+            <span class="timeline-step-badge" style="color: #ffe68d;"><i class="fa-solid fa-star"></i> Tahap 2: Babak Penyisihan</span>
+            <div class="timeline-date" style="color: var(--gold-primary);">Sabtu, 23 Januari 2027</div>
+            <p class="timeline-desc">
+              Pelaksanaan babak penyisihan serentak untuk seluruh bidang lomba. Pengumuman peserta yang lolos ke semifinal/final akan diumumkan pada sore hari pukul 16.00 WIB.
+            </p>
+          </div>
+
+          <!-- Step 3: Semifinal & Final -->
+          <div class="timeline-step">
+            <span class="timeline-step-badge">Tahap 3: Semifinal & Final</span>
+            <div class="timeline-date">Minggu, 24 Januari 2027</div>
+            <p class="timeline-desc">
+              Babak perebutan juara, presentasi/eksperimen saintifik, awarding ceremony akbar, dan penyerahan piala bergilir di Kampus PPM Ar Rahmat Bojonegoro.
+            </p>
+          </div>
+        </div>
+
+        <!-- Download Guidebook Callout -->
+        <div style="margin-top: 3rem; text-align: center;">
+          <button type="button" class="btn btn-outline-gold" id="btn-download-guidebook-olymp-2">
+            <i class="fa-solid fa-download"></i> Unduh File Petunjuk Teknis & Silabus Lengkap (Guidebook)
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORM PENDAFTARAN OLIMPIADE -->
+    <section class="section" id="daftar">
+      <div class="container">
+        <div class="form-section-wrapper">
+          <div class="form-header">
+            <span class="badge-egypt"><i class="fa-solid fa-user-plus"></i> Formulir Resmi</span>
+            <h3>REGISTRASI PESERTA OLIMPIADE</h3>
+            <p>Silakan isi data peserta dengan teliti dan unggah bukti transfer pendaftaran sebesar <strong>Rp 35.000,-</strong></p>
+          </div>
+
+          <!-- Payment Info Banner -->
+          <div class="payment-info-banner">
+            <div class="payment-info-header">
+              <i class="fa-solid fa-building-columns"></i>
+              <span>Rekening Resmi Pembayaran Biaya Pendaftaran ARMASO 2027</span>
+            </div>
+            <div class="payment-bank-details">
+              <div class="bank-card">
+                <span class="bank-name">Bank Syariah Indonesia (BSI)</span>
+                <div class="bank-account">714-285-9012</div>
+                <div class="bank-holder">a.n. Panitia ARMASO Ar Rahmat</div>
+              </div>
+              <div class="bank-card">
+                <span class="bank-name">Bank BRI</span>
+                <div class="bank-account">0011-01-089274-50-3</div>
+                <div class="bank-holder">a.n. Daka Maulana (Bendahara ARMASO)</div>
+              </div>
+              <div class="bank-card">
+                <span class="bank-name">Nominal Transfer</span>
+                <div class="bank-account" style="color: #25d366;">Rp 35.000</div>
+                <div class="bank-holder">Berita transfer: Nama Peserta_Sekolah</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FORM -->
+          <form id="form-olimpiade" novalidate>
+            <div class="form-grid">
+              <!-- Nama Peserta -->
+              <div class="form-group">
+                <label class="form-label" for="olymp-nama">
+                  Nama Lengkap Peserta <span class="required">*</span>
+                </label>
+                <input type="text" class="form-control" id="olymp-nama" placeholder="Contoh: Muhammad Rayhan Firdaus" required>
+                <span class="form-help">Sesuai nama yang akan dicetak pada piagam sertifikat penghargaan.</span>
+              </div>
+
+              <!-- Asal Sekolah -->
+              <div class="form-group">
+                <label class="form-label" for="olymp-sekolah">
+                  Asal Sekolah (SD/MI se-Jawa Bali) <span class="required">*</span>
+                </label>
+                <input type="text" class="form-control" id="olymp-sekolah" placeholder="Contoh: SDI Luqman Al Hakim Surabaya" required>
+                <span class="form-help">Tuliskan nama lengkap sekolah dan kota/kabupaten.</span>
+              </div>
+
+              <!-- Pilih Bidang -->
+              <div class="form-group">
+                <label class="form-label" for="olymp-bidang">
+                  Pilih Bidang Lomba <span class="required">*</span>
+                </label>
+                <select class="form-control" id="olymp-bidang" required>
+                  <option value="" disabled selected>-- Pilih Salah Satu Bidang --</option>
+                  <option value="Matematika">Olimpiade Matematika</option>
+                  <option value="IPA (Science)">Olimpiade IPA (Science)</option>
+                  <option value="IPS (Social)">Olimpiade IPS (Social)</option>
+                </select>
+                <span class="form-help">Satu peserta hanya boleh mengikuti satu cabang olimpiade.</span>
+              </div>
+
+              <!-- Nomor WhatsApp -->
+              <div class="form-group">
+                <label class="form-label" for="olymp-wa">
+                  Nomor WhatsApp Aktif <span class="required">*</span>
+                </label>
+                <input type="tel" class="form-control" id="olymp-wa" placeholder="Contoh: 081234567890" required>
+                <span class="form-help">Digunakan untuk informasi link grup peserta, jadwal, dan pengumuman.</span>
+              </div>
+
+              <!-- Catatan Tambahan (Opsional) -->
+              <div class="form-group full-width">
+                <label class="form-label" for="olymp-notes">Catatan Tambahan (Opsional):</label>
+                <input type="text" class="form-control" id="olymp-notes" placeholder="Nama guru pendamping / kontak alternatif jika ada">
+              </div>
+
+              <!-- File Upload Bukti Pembayaran -->
+              <div class="form-group full-width">
+                <label class="form-label">
+                  Upload Bukti Pembayaran Transfer (Rp 35.000) <span class="required">*</span>
+                </label>
+                
+                <!-- Dropzone Area -->
+                <div class="file-upload-card" id="olimpiade-dropzone">
+                  <input type="file" id="olimpiade-file" class="file-upload-input" accept="image/jpeg,image/png,image/webp">
+                  <div class="file-upload-icon">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                  </div>
+                  <div class="file-upload-text">Tarik & Jatuhkan Bukti Transfer di Sini</div>
+                  <div class="file-upload-hint">Atau klik untuk memilih file dari galeri / komputer (Maksimal 5MB, format JPG/PNG/WEBP)</div>
+                </div>
+
+                <!-- Preview Area -->
+                <div class="file-preview-wrap" id="olimpiade-preview-wrap">
+                  <div class="file-preview-info">
+                    <img src="" alt="Thumbnail Bukti Bayar" class="file-preview-thumb" id="olimpiade-preview-thumb">
+                    <div class="file-details">
+                      <span class="file-name" id="olimpiade-filename">nama-file.jpg</span>
+                      <span class="file-size" id="olimpiade-filesize">0 KB</span>
+                    </div>
+                  </div>
+                  <button type="button" class="btn-remove-file" id="olimpiade-remove-file" title="Hapus dan pilih ulang file">
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-submit-row">
+              <button type="submit" class="btn btn-gold btn-lg btn-submit-form" id="btn-submit-olymp">
+                <i class="fa-solid fa-paper-plane"></i> Kirim Pendaftaran Olimpiade
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer Resmi -->
+    <footer class="footer" id="lokasi-kontak">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col-brand">
+            <a href="index.html" class="brand-logo" style="margin-bottom: 1.25rem;">
+              <div class="brand-crest">
+                <i class="fa-solid fa-ankh"></i>
+              </div>
+              <div class="brand-text">
+                <span class="brand-title">ARMASO 2027</span>
+                <span class="brand-subtitle">AR-RAHMAT COMPETITION</span>
+              </div>
+            </a>
+            <p class="footer-about-text">
+              Cabang Olimpiade Akademik SD/MI Sederajat Se-Jawa Bali. Wadah pembuktian kemampuan nalar analitis para cendekia muda nusantara.
+            </p>
+            <div class="footer-social-row">
+              <a href="https://instagram.com/_dakamaulana_" target="_blank" rel="noopener noreferrer" class="social-btn" title="Instagram Panitia @_dakamaulana_">
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+              <a href="https://github.com/dakamaulana189" target="_blank" rel="noopener noreferrer" class="social-btn" title="GitHub Repository">
+                <i class="fa-brands fa-github"></i>
+              </a>
+              <a href="https://wa.me/6282142761856" target="_blank" rel="noopener noreferrer" class="social-btn" title="WhatsApp Panitia">
+                <i class="fa-brands fa-whatsapp"></i>
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="footer-col-title">Navigasi Halaman</h4>
+            <ul class="footer-links">
+              <li><a href="index.html"><i class="fa-solid fa-angle-right"></i> Beranda Utama</a></li>
+              <li><a href="olimpiade.html"><i class="fa-solid fa-angle-right"></i> Halaman Olimpiade</a></li>
+              <li><a href="futsal.html"><i class="fa-solid fa-angle-right"></i> Kompetisi Futsal</a></li>
+              <li><a href="#daftar"><i class="fa-solid fa-angle-right"></i> Form Registrasi</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="footer-col-title">Informasi & Unduhan</h4>
+            <ul class="footer-links">
+              <li><a href="javascript:void(0)" id="btn-download-guidebook-olymp-footer"><i class="fa-solid fa-file-lines"></i> Guidebook Olimpiade</a></li>
+              <li><a href="javascript:void(0)" id="btn-download-guidebook-futsal-footer"><i class="fa-solid fa-file-lines"></i> Guidebook Futsal</a></li>
+              <li><a href="index.html#biaya-hadiah"><i class="fa-solid fa-file-lines"></i> Hadiah & Juara</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="footer-col-title">Lokasi & Narahubung</h4>
+            <div class="footer-contact-item">
+              <i class="fa-solid fa-location-dot"></i>
+              <div>
+                <strong>Pondok Pesantren Modern Ar Rahmat</strong><br>
+                Jl. Untung Suropati No. 48 Bojonegoro, Jawa Timur
+              </div>
+            </div>
+
+            <div class="footer-contact-item">
+              <i class="fa-brands fa-whatsapp"></i>
+              <div>
+                <strong>WhatsApp Panitia:</strong><br>
+                <a href="https://wa.me/6282142761856" target="_blank" rel="noopener noreferrer">
+                  Daka Maulana: +62 821-4276-1856
+                </a>
+              </div>
+            </div>
+
+            <div class="footer-contact-item">
+              <i class="fa-brands fa-instagram"></i>
+              <div>
+                <strong>Instagram:</strong><br>
+                <a href="https://instagram.com/_dakamaulana_" target="_blank" rel="noopener noreferrer">@_dakamaulana_</a>
+              </div>
+            </div>
+
+            <div class="footer-contact-item">
+              <i class="fa-brands fa-github"></i>
+              <div>
+                <strong>GitHub:</strong><br>
+                <a href="https://github.com/dakamaulana189" target="_blank" rel="noopener noreferrer">github.com/dakamaulana189</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <div>&copy; 2027 <strong>ARMASO (Ar-Rahmat Olympiad 2027)</strong>. All Rights Reserved.</div>
+          <div>Panitia Resmi: <a href="https://wa.me/6282142761856">Kak Daka Maulana</a></div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- SUCCESS MODAL WITH WHATSAPP CONFIRMATION -->
+  <div class="modal-overlay" id="success-modal">
+    <div class="modal-box">
+      <button class="modal-close-btn" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button>
+      <div class="modal-success-icon">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <h3 class="modal-title">PENDAFTARAN BERHASIL!</h3>
+      <p class="modal-desc">
+        Data pendaftaran Anda dan bukti pembayaran telah berhasil diterima oleh sistem panitia ARMASO 2027.
+      </p>
+
+      <div class="reg-id-display-card">
+        <span class="reg-id-label">Kode Registrasi Unik Anda:</span>
+        <div class="reg-id-code" id="modal-reg-id">ARM-OLY-00000</div>
+        <span style="font-size: 0.78rem; color: var(--text-secondary);">Harap simpan atau screenshot kode registrasi ini.</span>
+      </div>
+
+      <div class="modal-actions">
+        <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp-confirm btn-lg" id="modal-btn-whatsapp">
+          <i class="fa-brands fa-whatsapp"></i> Konfirmasi ke WhatsApp Kak Daka Maulana
+        </a>
+        <button type="button" class="btn btn-outline-gold btn-close-modal">
+          Tutup & Kembali
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUIDEBOOK MODAL -->
+  <div class="modal-overlay" id="guidebook-modal">
+    <div class="modal-box">
+      <button class="modal-close-btn" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button>
+      <h3 class="modal-title" id="guidebook-modal-title">Buku Panduan ARMASO 2027</h3>
+      <p class="modal-desc">Pelajari ketentuan teknis lomba, silabus materi, format penilaian, dan tata tertib kompetisi.</p>
+      <div id="guidebook-modal-body"></div>
+      <div class="modal-actions" style="margin-top: 1.5rem;">
+        <button type="button" class="btn btn-gold" id="btn-guidebook-download-action">
+          <i class="fa-solid fa-download"></i> Unduh File Panduan (.txt)
+        </button>
+        <button type="button" class="btn btn-outline-gold btn-close-modal">
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GOOGLE APPS SCRIPT WEBHOOK CONFIG MODAL -->
+  <div class="modal-overlay" id="webhook-config-modal">
+    <div class="modal-box">
+      <button class="modal-close-btn" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button>
+      <h3 class="modal-title"><i class="fa-solid fa-database"></i> Integrasi Google Spreadsheet</h3>
+      <p class="modal-desc">
+        Data form di website ini dikirimkan secara otomatis ke Google Apps Script Webhook panitia untuk dicatat ke Google Sheets dan Google Drive.
+      </p>
+
+      <div class="form-group" style="margin-bottom: 1.5rem;">
+        <label class="form-label" for="gas-webhook-url-input">URL Webhook Google Apps Script (/exec):</label>
+        <input type="url" class="form-control" id="gas-webhook-url-input" placeholder="https://script.google.com/macros/s/.../exec">
+        <span class="form-help">Default sudah terhubung ke webhook panitia ARMASO 2027.</span>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-gold" id="btn-save-gas-url">
+          <i class="fa-solid fa-floppy-disk"></i> Simpan URL Webhook
+        </button>
+        <button type="button" class="btn btn-outline-gold" id="btn-reset-gas-url">
+          <i class="fa-solid fa-rotate-left"></i> Reset ke Bawaan
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/app.js"></script>
+  <script src="js/registration.js"></script>
+  <script>
+    document.getElementById('btn-download-guidebook-olymp-2')?.addEventListener('click', () => {
+      document.getElementById('btn-download-guidebook-olymp')?.click();
+    });
+    document.getElementById('btn-download-guidebook-olymp-footer')?.addEventListener('click', () => {
+      document.getElementById('btn-download-guidebook-olymp')?.click();
+    });
+    document.getElementById('btn-download-guidebook-futsal-footer')?.addEventListener('click', () => {
+      document.getElementById('btn-download-guidebook-futsal')?.click();
+    });
+  </script>
+</body>
+</html>

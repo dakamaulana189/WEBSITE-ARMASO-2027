@@ -1,28 +1,29 @@
 /**
  * ============================================================================
- * ARMASO 2027 - GOOGLE APPS SCRIPT BACKEND WEBHOOK
+ * ARMASO 2027 - GOOGLE APPS SCRIPT WEBHOOK BACKEND & POSTGRESQL SYNC HOOK
  * Ar-Rahmat Mathematic, Science, Social Olympiad & Sport Competition 2027
  * ============================================================================
  * 
- * PANDUAN PEMASANGAN CEPAT:
- * 1. Buka Google Drive (drive.google.com), buat Google Spreadsheet baru.
- * 2. Beri nama file Spreadsheet: "DATABASE PENDAFTARAN ARMASO 2027"
- * 3. Di menu atas Spreadsheet, klik: Extensions (Ekstensi) > Apps Script.
- * 4. Hapus semua kode default, lalu salin dan tempel (copy-paste) seluruh isi file ini.
- * 5. Klik icon Disket (Save project) atau Ctrl + S.
- * 6. Klik tombol "Deploy" (Terapkan) berwarna biru di kanan atas > "New deployment" (Deployment baru).
- * 7. Pilih tipe: "Web app" (Aplikasi web).
- * 8. Konfigurasi:
- *    - Description: "Webhook Pendaftaran Armaso 2027"
- *    - Execute as: "Me" (Email Google Anda)
- *    - Who has access: "Anyone" (Siapa saja, penting agar form website dapat mengirim data)
- * 9. Klik "Deploy", lalu klik "Authorize access" (Izinkan akses akun Anda).
- * 10. Salin "Web app URL" (URL berakhiran /exec).
- * 11. Buka website Armaso 2027, klik menu "Pengaturan Sheet" atau ubah variabel
- *     GOOGLE_SCRIPT_URL di file `js/app.js` dengan URL yang baru saja Anda salin.
+ * PANDUAN DEPLOYMENT:
+ * 1. Buka Google Drive (drive.google.com), buat Google Spreadsheet baru: "DATABASE PENDAFTARAN ARMASO 2027"
+ * 2. Klik menu: Ekstensi > Apps Script.
+ * 3. Hapus kode default, tempel seluruh kode ini, lalu simpan (Ctrl + S).
+ * 4. Klik "Deploy" (Terapkan) > "New deployment" (Deployment baru) > Tipe: "Web app" (Aplikasi web).
+ * 5. Konfigurasi:
+ *    - Description: "Webhook ARMASO 2027 Classic Edition"
+ *    - Execute as: "Me"
+ *    - Who has access: "Anyone" (Penting agar web form dapat mengirim data tanpa login)
+ * 6. Klik "Deploy", izinkan akses Google Account ("Authorize access" > Advanced > Go to project).
+ * 7. Salin Web App URL (berakhiran /exec) dan tempel di website ARMASO 2027 via tombol "Google Sheet Webhook".
  * ============================================================================
  */
 
+// OPTIONAL: URL Endpoint backend PostgreSQL jika ingin sinkronisasi real-time otomatis
+var POSTGRES_INGEST_URL = ""; // Contoh: "https://api.domain-anda.com/api/webhooks/armaso"
+
+/**
+ * Inisialisasi Lembar Kerja Google Spreadsheet (Classic & Majestic Egyptian Styling)
+ */
 function setupSpreadsheet() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   
@@ -34,21 +35,23 @@ function setupSpreadsheet() {
       "ID Registrasi",
       "Waktu Daftar",
       "Kategori Lomba",
-      "Bidang",
+      "Bidang Lomba",
       "Nama Lengkap",
       "Asal Sekolah",
       "Nomor WhatsApp",
       "Biaya Pendaftaran",
       "Status Pembayaran",
-      "Link Bukti Bayar (Google Drive)",
-      "Catatan Panitia"
+      "Link Bukti Transfer (Google Drive)",
+      "Catatan Tambahan"
     ];
     olymSheet.getRange(1, 1, 1, headersOlym.length).setValues([headersOlym]);
     olymSheet.getRange(1, 1, 1, headersOlym.length)
-      .setBackground("#1a1505")
-      .setFontColor("#f6d066")
-      .setFontWeight("bold");
+      .setBackground("#1c150e") // Dark Egyptian Ebony
+      .setFontColor("#f6d066")  // Royal Gold
+      .setFontWeight("bold")
+      .setHorizontalAlignment("center");
     olymSheet.setFrozenRows(1);
+    olymSheet.autoResizeColumns(1, headersOlym.length);
   }
 
   // Sheet 2: Futsal
@@ -61,27 +64,32 @@ function setupSpreadsheet() {
       "Kategori Lomba",
       "Asal Sekolah / Nama Tim",
       "Nama Official / Pelatih",
-      "Nomor WhatsApp",
+      "Nomor WhatsApp Official",
       "Biaya Pendaftaran",
       "Status Pembayaran",
-      "Link Bukti Bayar (Google Drive)",
-      "Catatan Panitia"
+      "Link Bukti Transfer (Google Drive)",
+      "Catatan Tambahan"
     ];
     futsalSheet.getRange(1, 1, 1, headersFutsal.length).setValues([headersFutsal]);
     futsalSheet.getRange(1, 1, 1, headersFutsal.length)
-      .setBackground("#05161c")
-      .setFontColor("#00f2fe")
-      .setFontWeight("bold");
+      .setBackground("#1c150e")
+      .setFontColor("#f6d066")
+      .setFontWeight("bold")
+      .setHorizontalAlignment("center");
     futsalSheet.setFrozenRows(1);
+    futsalSheet.autoResizeColumns(1, headersFutsal.length);
   }
 }
 
+/**
+ * Handle HTTP POST Request (Form Submission)
+ */
 function doPost(e) {
   var lock = LockService.getScriptLock();
   try {
-    // Kunci proses selama 30 detik untuk mencegah race-condition jika banyak pendaftar bersamaan
+    // Kunci selama 30 detik untuk mencegah konflik concurrent request
     lock.waitLock(30000);
-    
+
     var data;
     if (e.postData && e.postData.contents) {
       try {
@@ -90,32 +98,27 @@ function doPost(e) {
         data = e.parameter;
       }
     } else {
-      data = e.parameter;
+      data = e.parameter || {};
     }
 
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var category = (data.kategori || "Olimpiade").toLowerCase();
     var isFutsal = category.indexOf("futsal") !== -1;
     var targetSheetName = isFutsal ? "Futsal" : "Olimpiade";
-    
+
     var sheet = ss.getSheetByName(targetSheetName);
     if (!sheet) {
       setupSpreadsheet();
       sheet = ss.getSheetByName(targetSheetName);
     }
 
-    // Upload Bukti Pembayaran ke Google Drive jika ada
+    // 1. Simpan Bukti Pembayaran ke Google Drive
     var fileUrl = "Tidak ada lampiran";
     if (data.fileBase64 && data.fileName) {
       try {
         var folderName = "Bukti Pembayaran Armaso 2027";
         var folders = DriveApp.getFoldersByName(folderName);
-        var folder;
-        if (folders.hasNext()) {
-          folder = folders.next();
-        } else {
-          folder = DriveApp.createFolder(folderName);
-        }
+        var folder = folders.hasNext() ? folders.next() : DriveApp.createFolder(folderName);
 
         var contentType = data.fileType || "image/jpeg";
         var base64Data = data.fileBase64;
@@ -124,7 +127,7 @@ function doPost(e) {
         }
 
         var decoded = Utilities.base64Decode(base64Data);
-        var cleanFileName = (data.regId || "ARM") + "_" + (data.nama || data.sekolah || "Peserta") + "_" + data.fileName;
+        var cleanFileName = (data.regId || "ARM") + "_" + (data.nama || data.sekolah || "Peserta").replace(/[^a-zA-Z0-9_-]/g, "_") + "_" + data.fileName;
         var blob = Utilities.newBlob(decoded, contentType, cleanFileName);
         var file = folder.createFile(blob);
         file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
@@ -134,9 +137,11 @@ function doPost(e) {
       }
     }
 
+    // 2. Format Timestamp & ID
     var timestamp = Utilities.formatDate(new Date(), "Asia/Jakarta", "dd-MM-yyyy HH:mm:ss");
     var regId = data.regId || ("ARM-" + (isFutsal ? "FUT" : "OLY") + "-" + Math.floor(10000 + Math.random() * 90000));
 
+    // 3. Masukkan Baris Baru ke Google Sheet
     var newRow = [];
     if (isFutsal) {
       newRow = [
@@ -169,14 +174,47 @@ function doPost(e) {
 
     sheet.appendRow(newRow);
 
-    return ContentService.createTextOutput(JSON.stringify({
+    // 4. Hook Forwarding ke Backend PostgreSQL (Jika POSTGRES_INGEST_URL dikonfigurasi)
+    if (POSTGRES_INGEST_URL && POSTGRES_INGEST_URL.length > 5) {
+      try {
+        var pgPayload = {
+          regId: regId,
+          timestamp: timestamp,
+          category: isFutsal ? "FUTSAL" : "OLIMPIADE",
+          bidang: data.bidang || null,
+          nama: data.nama || null,
+          sekolah: data.sekolah || data.namaTim || null,
+          official: data.official || null,
+          whatsapp: data.whatsapp || null,
+          biaya: isFutsal ? 50000 : 35000,
+          status: "Menunggu Verifikasi",
+          fileUrl: fileUrl,
+          catatan: data.catatan || null
+        };
+
+        UrlFetchApp.fetch(POSTGRES_INGEST_URL, {
+          method: "post",
+          contentType: "application/json",
+          payload: JSON.stringify(pgPayload),
+          muteHttpExceptions: true
+        });
+      } catch (pgError) {
+        Logger.log("Forward to PostgreSQL warning: " + pgError.toString());
+      }
+    }
+
+    // Response Sukses
+    var output = {
       status: "success",
-      message: "Data pendaftaran berhasil tersimpan di Google Spreadsheet!",
+      message: "Data pendaftaran ARMASO 2027 berhasil tersimpan di Google Spreadsheet & Drive!",
       regId: regId,
       timestamp: timestamp,
       sheet: targetSheetName,
       fileUrl: fileUrl
-    })).setMimeType(ContentService.MimeType.JSON);
+    };
+
+    return ContentService.createTextOutput(JSON.stringify(output))
+      .setMimeType(ContentService.MimeType.JSON);
 
   } catch (error) {
     return ContentService.createTextOutput(JSON.stringify({
@@ -188,10 +226,15 @@ function doPost(e) {
   }
 }
 
+/**
+ * Handle HTTP GET Request (Health Check)
+ */
 function doGet(e) {
   return ContentService.createTextOutput(JSON.stringify({
     status: "online",
-    message: "Google Apps Script Armaso 2027 Webhook berjalan aktif!",
+    service: "ARMASO 2027 Webhook Service",
+    theme: "Classic & Majestic Egyptian",
+    sheets: ["Olimpiade", "Futsal"],
     timestamp: new Date().toISOString()
   })).setMimeType(ContentService.MimeType.JSON);
 }

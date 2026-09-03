@@ -1,83 +1,123 @@
-# Website Resmi ARMASO 2027 (Egyptian Futuristic Edition)
-**Ar-Rahmat Mathematic, Science, Social Olympiad & Sport Competition**  
+# Website Resmi ARMASO 2027 (Classic & Majestic Egyptian Edition)
+**Ar-Rahmat Mathematic, Science, Social Olympiad, and Sport Competition**  
 *Pondok Pesantren Modern Ar Rahmat Bojonegoro, Jawa Timur*
 
 ---
 
 ## 🏛️ Gambaran Umum & Konsep Visual
-Website **ARMASO 2027** dirancang dengan konsep visual megah bertema **Egyptian Futuristic** — perpaduan kemegahan peradaban Mesir Kuno (emas firaun, obsidian hitam, siluet piramida, hieroglif bersinar) dan estetika cyber neon (cyan & amber). Ditujukan untuk peserta tingkat **SD/MI sederajat se-Jawa Bali**.
 
-### ✨ Fitur Unggulan
-1. **Animasi Kursor Interaktif**:
-   - Kursor kustom berelemen lingkaran cahaya dan simbol Ankh / Eye of Horus minimalis dengan aura emas dan biru neon.
-   - Hover effect dinamis (membesar, berputar lembut 45°, dan berubah warna ke neon turquoise) pada seluruh tombol, form, dan tautan.
-   - Otomatis dinonaktifkan secara rapi di perangkat layar sentuh / mobile untuk menjaga kenyamanan navigasi.
-2. **Smooth Scrolling & Scroll Reveal (Lenis Engine)**:
-   - Gulir halaman ultra-halus (*buttery smooth momentum*) menggunakan integrasi pustaka modern Lenis.
-   - Elemen teks, banner piramida cyber, kartu event, dan timeline muncul perlahan (*fade-up & parallax reveal*) saat pengguna menggulir ke bawah.
-3. **Struktur Konten Sesuai Ketentuan**:
-   - **Beranda**: Penjelasan lengkap ARMASO 2027, hitung mundur menuju 23 Januari 2027, komparasi biaya pendaftaran (Rp35.000 untuk Olimpiade & Rp50.000 untuk Futsal), dan total hadiah (Rp10 juta untuk Olimpiade & Rp20 juta untuk Futsal).
-   - **Halaman Olimpiade (Matematika, IPA, IPS)**: Timeline khusus (Sabtu 23 Jan 2027 penyisihan & Minggu 24 Jan 2027 semifinal/final), tombol download Guidebook interaktif, formulir registrasi per bidang dengan upload bukti transfer langsung.
-   - **Halaman Futsal**: Peraturan dan jalannya acara sistem gugur, timeline khusus (1 - 21 Jan 2027 setiap hari Minggu & final 24 Jan 2027), tombol download Guidebook, formulir registrasi tim & official dengan upload bukti transfer.
-   - **Lokasi & Kontak**: Peta interaktif Pondok Pesantren Modern Ar Rahmat, Jl. Untung Suropati No. 48 Bojonegoro, Jawa Timur. Narahubung resmi: **Daka Maulana** (WhatsApp: `+62 821-4276-1856`, Instagram: `@dakamaulana`, GitHub: `https://github.com/dakamaulana189`).
-4. **Integrasi Real-Time Google Spreadsheet (Google Apps Script)**:
-   - Seluruh data registrasi dan bukti transfer otomatis tersimpan ke Google Spreadsheet secara real-time.
-   - Bukti transfer disimpan otomatis ke folder Google Drive panitia dan link view langsung dicantumkan pada baris data spreadsheet.
-   - Disediakan tombol konfirmasi otomatis ke WhatsApp Kak Daka Maulana setelah formulir terkirim.
+Website resmi **ARMASO 2027** mengusung tema **Classic & Majestic Egyptian** yang megah, sakral, dan otentik. Terinspirasi dari kejayaan peradaban Mesir Kuno dengan palet warna emas Firaun (`#f6d066`), batu obsidian, dan batu pasir hangat cokelat tua, bebas dari efek neon/futuristik yang mengganggu. 
+
+Ditujukan untuk peserta tingkat **SD/MI sederajat se-Jawa Bali** dalam dua rumpun kompetisi bergengsi:
+1. **Olimpiade Akademik**: Matematika, IPA (*Science*), dan IPS (*Social*).
+2. **Turnamen Futsal Putra**: Kompetisi olahraga sistem gugur antar sekolah.
 
 ---
 
-## 📂 Struktur File Proyek
+## 💎 Struktur Halaman & Fitur Utama
+
+1. **Beranda Utama (`index.html`)**:
+   - Hero banner megah berlatar Piramida Giza dan Sphinx klasik saat matahari terbenam emas (*golden sunset*).
+   - Penjelasan ringkas mengenai ARMASO 2027 dan countdown timer menuju 23 Januari 2027.
+   - Komparasi Biaya Pendaftaran (**Olimpiade Rp 35.000**, **Futsal Rp 50.000**) dan Total Hadiah (**Olimpiade Rp 10 Juta**, **Futsal Rp 20 Juta**).
+   - Navigasi modular langsung menuju sub-halaman `olimpiade.html` dan `futsal.html`.
+   - Profil Pondok Pesantren Modern Ar Rahmat Bojonegoro.
+   - Footer lengkap berisi:
+     - Lokasi: *Pondok Pesantren Modern Ar Rahmat, Jl. Untung Suropati No. 48 Bojonegoro, Jawa Timur*.
+     - Kontak WhatsApp Panitia: **Daka Maulana (+62 821-4276-1856)**.
+     - Instagram: **`@_dakamaulana_`**.
+     - GitHub: **`https://github.com/dakamaulana189`**.
+
+2. **Sub-Halaman Olimpiade (`olimpiade.html`)**:
+   - Tiga bidang lomba: **Matematika**, **IPA (Science)**, dan **IPS (Social)**.
+   - Timeline Khusus:
+     - **Babak Penyisihan**: Sabtu, 23 Januari 2027.
+     - **Babak Semifinal & Final**: Minggu, 24 Januari 2027.
+   - Tombol unduh file *Guidebook* (Petunjuk Teknis & Silabus).
+   - Formulir pendaftaran online terintegrasi dengan validasi ketat dan drag & drop file upload bukti transfer (Max 5MB, format JPG/PNG/WEBP).
+   - Modal konfirmasi sukses dengan kode registrasi unik dan tombol otomatis konfirmasi WhatsApp ke Kak Daka Maulana.
+
+3. **Sub-Halaman Futsal (`futsal.html`)**:
+   - Penjelasan regulasi pertandingan, durasi, komposisi tim (5 inti + 5 cadangan + 2 official), dan format sistem gugur (*Single Elimination*).
+   - Timeline Khusus:
+     - **Babak Penyisihan & Perempat Final**: 1 - 21 Januari 2027 (setiap hari Minggu).
+     - **Babak Semifinal & Grand Final**: Minggu, 24 Januari 2027 di Sport Arena Ar Rahmat Bojonegoro.
+   - Tombol unduh file *Guidebook* regulasi futsal.
+   - Formulir registrasi tim & official dengan upload bukti transfer Rp 50.000,-.
+
+4. **Integrasi Backend Ganda (Google Apps Script & PostgreSQL)**:
+   - Form submission otomatis masuk ke Google Spreadsheet dan file bukti transfer otomatis tersimpan rapi di folder Google Drive panitia.
+   - Skema database PostgreSQL lengkap di [`database/schema.sql`](file:///c:/Antigravity/WEBSITE%20ARMASO%20BETA/database/schema.sql) dan modul sinkronisasi Node.js di [`database/sync_service.js`](file:///c:/Antigravity/WEBSITE%20ARMASO%20BETA/database/sync_service.js).
+   - Logika pembacaan Base64 yang tahan error dengan state management file yang terisolasi.
+
+---
+
+## 📂 Struktur Direktori Proyek
 
 ```
 WEBSITE ARMASO BETA/
 ├── assets/
 │   └── images/
-│       ├── hero-pyramid.jpg     # Banner Piramida Futuristik Emas
-│       ├── olympiad-temple.jpg   # Kuil Sains & Matematika Cyber
-│       └── futsal-arena.jpg     # Arena Futsal Futuristik
+│       ├── hero-pyramid.jpg          # Kemegahan Piramida Klasik Emas (Beranda)
+│       ├── olympiad-temple.jpg        # Kuil Kebijaksanaan & Sains Klasik (Olimpiade)
+│       └── futsal-arena.jpg          # Arena Koloseum Olahraga Klasik (Futsal)
 ├── css/
-│   └── style.css                # Desain sistem Egyptian Futuristic, kursor, & animasi
+│   └── style.css                     # Sistem Desain Classic & Majestic Egyptian
 ├── js/
-│   └── app.js                   # Logika navigasi, Lenis smooth scroll, form & GAS webhook
+│   ├── app.js                        # Kontroler UI, Navbar Mobile, Timer, & Guidebook
+│   └── registration.js               # Mesin Form, Base64 Uploader, GAS Webhook, & WA Bridge
+├── database/
+│   ├── schema.sql                    # Skema DDL Database PostgreSQL
+│   └── sync_service.js               # Modul Sinkronisasi Node.js / PostgreSQL
 ├── google-apps-script/
-│   └── Code.gs                  # Kode backend untuk Google Spreadsheet & Drive
-├── index.html                   # Halaman web semantik lengkap
-└── README.md                    # Dokumentasi ini
+│   └── Code.gs                       # Webhook Google Spreadsheet & Google Drive
+├── index.html                        # Beranda Utama
+├── olimpiade.html                    # Sub-Halaman Olimpiade SD/MI
+├── futsal.html                       # Sub-Halaman Kompetisi Futsal
+└── README.md                         # Dokumentasi Proyek
 ```
 
 ---
 
 ## ⚙️ Panduan Menghubungkan ke Google Spreadsheet
 
-Untuk mencatat pendaftaran langsung ke Google Spreadsheet milik panitia:
+1. Buka [Google Drive](https://drive.google.com/) dan buat **Google Spreadsheet** baru dengan nama: `DATABASE PENDAFTARAN ARMASO 2027`.
+2. Di menu atas, pilih **Ekstensi** > **Apps Script**.
+3. Salin seluruh isi berkas [`google-apps-script/Code.gs`](file:///c:/Antigravity/WEBSITE%20ARMASO%20BETA/google-apps-script/Code.gs), tempel di editor Apps Script, dan simpan (`Ctrl + S`).
+4. Klik tombol **Deploy** (Terapkan) berwarna biru di kanan atas > **New deployment**.
+5. Pilih tipe **Web app** (Aplikasi web) dengan pengaturan:
+   - **Description**: `Webhook ARMASO 2027 Classic`
+   - **Execute as**: `Me (Email Anda)`
+   - **Who has access**: `Anyone (Siapa saja)`
+6. Klik **Deploy**, berikan izin akses (*Authorize access*), lalu salin URL Web app (berakhiran `/exec`).
+7. Pada website ARMASO 2027, klik tombol **"Google Sheet Webhook"** di navbar atas dan tempelkan URL tersebut.
 
-1. Buka [Google Drive](https://drive.google.com/) dan buat **Google Spreadsheet** baru. Beri judul: `DATABASE PENDAFTARAN ARMASO 2027`.
-2. Di menu atas Spreadsheet, klik menu **Extensions (Ekstensi)** > **Apps Script**.
-3. Hapus seluruh isi kode bawaan, lalu salin dan tempel kode dari file [`google-apps-script/Code.gs`](file:///c:/Antigravity/WEBSITE%20ARMASO%20BETA/google-apps-script/Code.gs).
-4. Klik tombol **Save Project** (ikon disket) atau tekan `Ctrl + S`.
-5. Klik tombol biru **Deploy (Terapkan)** di kanan atas > pilih **New deployment (Deployment baru)**.
-6. Klik ikon roda gigi di sebelah kiri "Select type", lalu pilih **Web app (Aplikasi web)**.
-7. Isi konfigurasi:
-   - **Description**: `Webhook ARMASO 2027`
-   - **Execute as**: `Me (email akun Anda)`
-   - **Who has access**: `Anyone (Siapa saja)` *(Penting agar form di website dapat mengirim data)*.
-8. Klik tombol **Deploy**. Jika muncul jendela izin akses Google, klik **Authorize access** > pilih akun Anda > klik **Advanced** > klik **Go to Untitled project (unsafe)** > klik **Allow**.
-9. Salin URL yang diberikan pada kolom **Web app URL** (berakhiran `/exec`).
-10. Di website ARMASO 2027, klik tombol **"Google Sheet Webhook"** di navbar atas (atau footer), tempelkan URL tersebut, lalu klik **"Simpan URL Webhook"**.
-11. Selesai! Kini setiap kali ada yang mendaftar Olimpiade atau Futsal, datanya otomatis masuk rapi ke lembar kerja *Olimpiade* dan *Futsal*.
+---
+
+## 🐘 Penggunaan Database PostgreSQL
+
+Jika panitia ingin menyimpan atau menyinkronkan data langsung ke PostgreSQL:
+1. Impor skema tabel:
+   ```bash
+   psql -U postgres -d nama_database -f database/schema.sql
+   ```
+2. Jalankan server ingest webhook / sinkronisasi:
+   ```bash
+   node database/sync_service.js
+   ```
 
 ---
 
 ## 🚀 Menjalankan Secara Lokal
-Website ini dibangun murni menggunakan standar web modern tanpa memerlukan proses *build* yang rumit:
+
+Website ini dibangun murni menggunakan standar web modern tanpa build tool rumit:
 
 ```bash
-# Menggunakan serve (Node.js)
-npx serve .
-
-# Atau menggunakan Python HTTP Server
+# Menggunakan Python
 python -m http.server 8080
+
+# Atau menggunakan Node.js serve
+npx -y serve .
 ```
-Buka browser pada alamat `http://localhost:8080`.
-Website juga siap di-deploy langsung ke **GitHub Pages**, **Vercel**, **Netlify**, atau **cPanel**.
+
+Akses melalui browser di: `http://localhost:8080`.
