@@ -4,7 +4,7 @@
    Pondok Pesantren Modern Ar Rahmat Bojonegoro, Jawa Timur
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 :root {
   /* Classic & Majestic Egyptian Color Palette */
@@ -43,8 +43,8 @@
   --border-sand: rgba(142, 127, 108, 0.2);
 
   /* Typography Families */
-  --font-royal: 'Cinzel Decorative', 'Cinzel', serif;
-  --font-heading: 'Cinzel', serif;
+  --font-royal: 'Anton', 'Cinzel Decorative', serif;
+  --font-heading: 'Anton', 'Cinzel', sans-serif;
   --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   /* Spacing & Radii */
@@ -87,6 +87,20 @@ body {
     radial-gradient(circle at 10% 40%, rgba(161, 119, 25, 0.05) 0%, transparent 50%),
     radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.04) 0%, transparent 50%);
   background-attachment: fixed;
+}
+
+/* Base Headings & Titles Typography (Font: Anton) */
+h1, h2, h3, h4, h5, h6,
+.hero-title-main,
+.section-title,
+.brand-title,
+.subject-title,
+.tier-name,
+.modal-title,
+.form-header h3,
+.footer-col-title {
+  font-family: 'Anton', sans-serif;
+  letter-spacing: 0.04em;
 }
 
 /* Subtle Ancient Egyptian Hieroglyphic Background Texture (Lightweight SVG) */
@@ -132,7 +146,7 @@ body {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border-gold);
-  transition: background var(--transition-normal), box-shadow var(--transition-normal);
+  transition: background var(--transition-normal), box-shadow var(--transition-normal), padding var(--transition-normal);
 }
 
 .navbar.scrolled {
@@ -1456,6 +1470,27 @@ select.form-control option {
 .footer-bottom a {
   color: var(--gold-primary);
   text-decoration: none;
+}
+
+/* ==========================================================================
+   DESKTOP NAVBAR & HEADER ADJUSTMENTS (>= 992px)
+   Turunkan posisi navbar agar tidak menempel / nabrak batas atas browser
+   ========================================================================== */
+@media (min-width: 992px) {
+  .navbar {
+    padding-top: 25px;
+    padding-bottom: 12px;
+  }
+
+  .navbar.scrolled {
+    padding-top: 15px;
+    padding-bottom: 8px;
+  }
+
+  .hero-section,
+  .subpage-hero {
+    padding-top: 155px;
+  }
 }
 
 /* ==========================================================================
