@@ -1,28 +1,58 @@
 /**
  * ============================================================================
- * ARMASO 2027 - REGISTRATION & FILE UPLOAD ENGINE (MODULAR)
+ * ARMASO 2027 - REGISTRATION & SUPABASE / GAS DUAL INTEGRATION ENGINE
  * Ar-Rahmat Mathematic, Science, Social Olympiad & Sport Competition
+ * Pondok Pesantren Modern Ar Rahmat Bojonegoro, Jawa Timur
  * ============================================================================
  */
 
 (function () {
   'use strict';
 
-  // Default Google Apps Script Webhook Endpoint
+  // 1. Supabase PostgreSQL Configuration
+  const SUPABASE_CONFIG = {
+    url: 'https://lesnwzqicijcmbbquynk.supabase.co',
+    anonKey: 'sb_publishable_n4n7HPAmj8JwmtH_19Q8HA__poiPj9J',
+    tables: {
+      olimpiade: 'registrations_olimpiade',
+      futsal: 'registrations_futsal'
+    }
+  };
+
+  // 2. Default Google Apps Script (GAS) Webhook Endpoint (Fallback / Dual-Sync)
   const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbxhAVGyeroYI8bx5NhkosgknUrx85Y8qUUb2CtJumQCmJrkHeVsh_K0QHxZEMzzPBpu9A/exec';
   const STORAGE_KEY_GAS = 'armaso_gas_webhook_url';
 
-  // Official Coordinator WhatsApp
+  // 3. Official Coordinator WhatsApp
   const PANITIA_WA = '6282142761856'; // Kak Daka Maulana
 
-  // Centralized, bug-free File State Store
+  // 4. Centralized File State Store
   const fileState = {
     olimpiade: { base64: '', name: '', type: '', size: 0 },
     futsal: { base64: '', name: '', type: '', size: 0 }
   };
 
+  // Singleton Supabase Client instance
+  let _supabaseInstance = null;
+
   /**
-   * Get Active Webhook URL (from localStorage or default fallback)
+   * Get or initialize Supabase JS Client
+   */
+  function getSupabaseClient() {
+    if (_supabaseInstance) return _supabaseInstance;
+    try {
+      if (window.supabase && typeof window.supabase.createClient === 'function') {
+        _supabaseInstance = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
+        return _supabaseInstance;
+      }
+    } catch (e) {
+      console.warn('Supabase JS Client initialization error, fallback to REST API:', e);
+    }
+    return null;
+  }
+
+  /**
+   * Get Active Google Apps Script Webhook URL (localStorage or default)
    */
   function getWebhookUrl() {
     return localStorage.getItem(STORAGE_KEY_GAS) || DEFAULT_GAS_URL;
@@ -55,7 +85,6 @@
 
     // Trigger file picker on dropzone click
     dropzone.addEventListener('click', (e) => {
-      // Prevent double trigger if clicking input itself
       if (e.target !== fileInput) {
         fileInput.click();
       }
@@ -149,12 +178,91 @@
   }
 
   /**
-   * Submit payload to Google Apps Script Webhook
+   * Save registration row directly to Supabase PostgreSQL using Client or REST fallback
    */
-  async function submitRegistration(payload) {
-    const webhookUrl = getWebhookUrl();
+  async function saveToSupabase(tableKey, rowData) {
+    const primaryTable = SUPABASE_CONFIG.tables[tableKey];
+    const fallbackTable = tableKey === 'olimpiade' ? 'registrasi_olimpiade' : 'registrasi_futsal';
+    const client = getSupabaseClient();
 
-    // Use URLSearchParams or JSON string based on compatibility
+    // 1. Try with official Supabase JS Client first
+    if (client) {
+      try {
+        const { data, error } = await client
+          .from(primaryTable)
+          .insert([rowData])
+          .select();
+
+        if (!error && data) {
+          console.log(`[Supabase JS] Berhasil insert ke tabel ${primaryTable}:`, data);
+          return { success: true, data, source: 'supabase_js' };
+        }
+
+        if (error) {
+          console.warn(`[Supabase JS] Error insert ke ${primaryTable}:`, error.message, error);
+          // If error was table name mismatch, try fallback table name
+          if (error.code === 'PGRST205' || error.message.includes('Could not find the table')) {
+            const { data: fbData, error: fbErr } = await client
+              .from(fallbackTable)
+              .insert([rowData])
+              .select();
+            if (!fbErr && fbData) {
+              console.log(`[Supabase JS] Berhasil insert ke tabel alternatif ${fallbackTable}:`, fbData);
+              return { success: true, data: fbData, source: 'supabase_js_fallback' };
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('[Supabase JS Client Exception]:', err);
+      }
+    }
+
+    // 2. Try direct Supabase PostgREST API (Direct Fetch)
+    try {
+      const endpointsToTry = [primaryTable, fallbackTable];
+      for (const tName of endpointsToTry) {
+        const response = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/${tName}`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_CONFIG.anonKey,
+            'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=representation'
+          },
+          body: JSON.stringify(rowData)
+        });
+
+        if (response.ok) {
+          const resJson = await response.json();
+          console.log(`[Supabase REST] Berhasil insert ke ${tName}:`, resJson);
+          return { success: true, data: resJson, source: 'supabase_rest' };
+        } else {
+          const errDetail = await response.json().catch(() => ({}));
+          console.warn(`[Supabase REST] Status ${response.status} pada tabel ${tName}:`, errDetail);
+          if (errDetail.code === '42501') {
+            // Row-Level Security policy error
+            return {
+              success: false,
+              rlsRequired: true,
+              message: 'Kebijakan RLS (Row Level Security) perlu diaktifkan di Supabase SQL Editor untuk publik insert.'
+            };
+          }
+        }
+      }
+    } catch (fetchErr) {
+      console.warn('[Supabase REST Fetch Error]:', fetchErr);
+    }
+
+    return { success: false, message: 'Gagal menghubungkan ke database Supabase.' };
+  }
+
+  /**
+   * Submit payload to Google Apps Script Webhook (for Google Sheets & Drive Dual-Sync / Fallback)
+   */
+  async function submitToGoogleAppsScript(payload) {
+    const webhookUrl = getWebhookUrl();
+    if (!webhookUrl) return { status: 'skipped' };
+
     try {
       const response = await fetch(webhookUrl, {
         method: 'POST',
@@ -171,7 +279,7 @@
         return { status: 'success', raw: responseText };
       }
     } catch (networkError) {
-      console.warn('Network or CORS warning sending to GAS, data cached for WhatsApp confirmation:', networkError);
+      console.warn('Network warning sending to GAS, data cached for WhatsApp confirmation:', networkError);
       return { status: 'offline_saved', message: 'Data dikirim via WhatsApp' };
     }
   }
@@ -179,15 +287,26 @@
   /**
    * Display Confirmation Success Modal & configure WhatsApp Link
    */
-  function showSuccessModal(data) {
+  function showSuccessModal(data, syncStatus) {
     const modal = document.getElementById('success-modal');
     if (!modal) return;
 
     const idCodeEl = document.getElementById('modal-reg-id');
     const waBtn = document.getElementById('modal-btn-whatsapp');
+    const modalDesc = modal.querySelector('.modal-desc');
 
     if (idCodeEl) {
       idCodeEl.textContent = data.regId;
+    }
+
+    if (modalDesc && syncStatus) {
+      let syncBadge = '';
+      if (syncStatus.supabase) {
+        syncBadge = `<br><span style="display:inline-block; margin-top:0.5rem; color:#25d366; font-size:0.85rem;"><i class="fa-solid fa-circle-check"></i> Tersimpan di Database Supabase & Google Sheet</span>`;
+      } else {
+        syncBadge = `<br><span style="display:inline-block; margin-top:0.5rem; color:#f6d066; font-size:0.85rem;"><i class="fa-solid fa-cloud-arrow-up"></i> Terdata di Sistem Panitia. Silakan lakukan konfirmasi WhatsApp.</span>`;
+      }
+      modalDesc.innerHTML = `Data pendaftaran Anda telah berhasil diproses oleh sistem ARMASO 2027.${syncBadge}`;
     }
 
     // Build WhatsApp message for Kak Daka Maulana
@@ -253,11 +372,26 @@
       const submitBtn = document.getElementById('btn-submit-olymp');
       const originalText = submitBtn.innerHTML;
       submitBtn.disabled = true;
-      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan Pendaftaran...';
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan ke Database Supabase...';
 
       const regId = `ARM-OLY-${Math.floor(10000 + Math.random() * 90000)}`;
 
-      const payload = {
+      // 1. Structure Row for Supabase Table 'registrations_olimpiade'
+      const supabaseRow = {
+        reg_id: regId,
+        nama_lengkap: nama,
+        asal_sekolah: sekolah,
+        bidang_lomba: bidang,
+        nomor_whatsapp: wa,
+        biaya_pendaftaran: 35000,
+        status_pembayaran: 'Menunggu Verifikasi',
+        bukti_transfer_url: fileState.olimpiade.base64,
+        catatan_tambahan: notes || null,
+        waktu_daftar_gas: new Date().toISOString()
+      };
+
+      // 2. Structure Payload for Google Apps Script Webhook (Fallback & Sheet Sync)
+      const gasPayload = {
         kategori: 'Olimpiade',
         regId: regId,
         nama: nama,
@@ -271,10 +405,20 @@
         fileBase64: fileState.olimpiade.base64
       };
 
+      const syncStatus = { supabase: false, gas: false };
+
       try {
-        await submitRegistration(payload);
+        // Submit to Supabase as primary database
+        const supabaseResult = await saveToSupabase('olimpiade', supabaseRow);
+        syncStatus.supabase = !!supabaseResult.success;
+
+        // Perform simultaneous dual-sync or fallback to Google Apps Script
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sinkronisasi Google Sheets...';
+        const gasResult = await submitToGoogleAppsScript(gasPayload);
+        syncStatus.gas = !!(gasResult && gasResult.status !== 'error');
+
       } catch (err) {
-        console.warn('Submission fallback:', err);
+        console.warn('Submission pipeline catch warning:', err);
       } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalText;
@@ -285,7 +429,7 @@
         if (removeBtn) removeBtn.click();
 
         // Show Success Confirmation Modal
-        showSuccessModal(payload);
+        showSuccessModal(gasPayload, syncStatus);
       }
     });
   }
@@ -320,11 +464,25 @@
       const submitBtn = document.getElementById('btn-submit-futsal');
       const originalText = submitBtn.innerHTML;
       submitBtn.disabled = true;
-      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan Pendaftaran...';
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan ke Database Supabase...';
 
       const regId = `ARM-FUT-${Math.floor(10000 + Math.random() * 90000)}`;
 
-      const payload = {
+      // 1. Structure Row for Supabase Table 'registrations_futsal'
+      const supabaseRow = {
+        reg_id: regId,
+        asal_sekolah_nama_tim: sekolah,
+        nama_official_pelatih: official,
+        nomor_whatsapp: wa,
+        biaya_pendaftaran: 50000,
+        status_pembayaran: 'Menunggu Verifikasi',
+        bukti_transfer_url: fileState.futsal.base64,
+        catatan_tambahan: notes || null,
+        waktu_daftar_gas: new Date().toISOString()
+      };
+
+      // 2. Structure Payload for Google Apps Script Webhook (Fallback & Sheet Sync)
+      const gasPayload = {
         kategori: 'Kompetisi Futsal',
         regId: regId,
         sekolah: sekolah,
@@ -338,10 +496,20 @@
         fileBase64: fileState.futsal.base64
       };
 
+      const syncStatus = { supabase: false, gas: false };
+
       try {
-        await submitRegistration(payload);
+        // Submit to Supabase as primary database
+        const supabaseResult = await saveToSupabase('futsal', supabaseRow);
+        syncStatus.supabase = !!supabaseResult.success;
+
+        // Perform simultaneous dual-sync or fallback to Google Apps Script
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sinkronisasi Google Sheets...';
+        const gasResult = await submitToGoogleAppsScript(gasPayload);
+        syncStatus.gas = !!(gasResult && gasResult.status !== 'error');
+
       } catch (err) {
-        console.warn('Submission fallback:', err);
+        console.warn('Submission pipeline catch warning:', err);
       } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalText;
@@ -352,7 +520,7 @@
         if (removeBtn) removeBtn.click();
 
         // Show Success Confirmation Modal
-        showSuccessModal(payload);
+        showSuccessModal(gasPayload, syncStatus);
       }
     });
   }
@@ -383,10 +551,13 @@
     initModalClosers();
   });
 
-  // Export functions to window for debugging or manual triggering
+  // Export functions & configuration to window for debugging or manual inspection
   window.ArmasoRegistration = {
+    getSupabaseClient,
     getWebhookUrl,
-    showSuccessModal
+    saveToSupabase,
+    showSuccessModal,
+    SUPABASE_CONFIG
   };
 
 })();

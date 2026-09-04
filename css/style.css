@@ -4,7 +4,7 @@
    Pondok Pesantren Modern Ar Rahmat Bojonegoro, Jawa Timur
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 :root {
   /* Classic & Majestic Egyptian Color Palette */
@@ -43,8 +43,8 @@
   --border-sand: rgba(142, 127, 108, 0.2);
 
   /* Typography Families */
-  --font-royal: 'Anton', 'Cinzel Decorative', serif;
-  --font-heading: 'Anton', 'Cinzel', sans-serif;
+  --font-royal: 'Poppins', 'Cinzel Decorative', serif;
+  --font-heading: 'Poppins', sans-serif;
   --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   /* Spacing & Radii */
@@ -89,7 +89,7 @@ body {
   background-attachment: fixed;
 }
 
-/* Base Headings & Titles Typography (Font: Anton) */
+/* Base Headings & Titles Typography (Font: Poppins) */
 h1, h2, h3, h4, h5, h6,
 .hero-title-main,
 .section-title,
@@ -99,8 +99,9 @@ h1, h2, h3, h4, h5, h6,
 .modal-title,
 .form-header h3,
 .footer-col-title {
-  font-family: 'Anton', sans-serif;
-  letter-spacing: 0.04em;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.02em;
 }
 
 /* Subtle Ancient Egyptian Hieroglyphic Background Texture (Lightweight SVG) */

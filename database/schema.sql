@@ -115,3 +115,38 @@ SELECT
   bukti_transfer_url,
   created_at
 FROM registrations_futsal;
+
+-- 5. Kebijakan Row Level Security (RLS) untuk Supabase
+-- Izinkan publik (anon/authenticated) untuk mendaftar (INSERT)
+ALTER TABLE registrations_olimpiade ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Allow anon public insert to registrations_olimpiade" ON registrations_olimpiade;
+CREATE POLICY "Allow anon public insert to registrations_olimpiade" 
+ON registrations_olimpiade 
+FOR INSERT 
+TO anon, authenticated 
+WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Allow anon public select registrations_olimpiade" ON registrations_olimpiade;
+CREATE POLICY "Allow anon public select registrations_olimpiade" 
+ON registrations_olimpiade 
+FOR SELECT 
+TO anon, authenticated 
+USING (true);
+
+ALTER TABLE registrations_futsal ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Allow anon public insert to registrations_futsal" ON registrations_futsal;
+CREATE POLICY "Allow anon public insert to registrations_futsal" 
+ON registrations_futsal 
+FOR INSERT 
+TO anon, authenticated 
+WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Allow anon public select registrations_futsal" ON registrations_futsal;
+CREATE POLICY "Allow anon public select registrations_futsal" 
+ON registrations_futsal 
+FOR SELECT 
+TO anon, authenticated 
+USING (true);
+
